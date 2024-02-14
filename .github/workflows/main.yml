@@ -25,4 +25,4 @@ jobs:
         with:
           playbook: ci_playbook.yml
           directory: ./
-          vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+          vault_password: T-NSA-700-PAR_24
