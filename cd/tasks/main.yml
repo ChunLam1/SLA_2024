@@ -9,9 +9,17 @@
   args:
     creates: "/home/runner/.nvm"
 
+- name: Load NVM into the shell
+  become: yes
+  shell: |
+    source ~/.nvm/nvm.sh
+    source ~/.bashrc
+  args:
+    executable: /bin/bash
+
 - name: Install specific version of Node.js
   become: yes
-  shell: "/bin/bash -c 'source ~/.nvm/nvm.sh && nvm install 9.4'"
+  shell: "nvm install 9.4"
   args:
     executable: /bin/bash
 
