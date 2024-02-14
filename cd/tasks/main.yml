@@ -32,7 +32,7 @@
 
 - name: Install Node.js dependencies
   become_user: runner
-  command: npm install
+  command: npm install -g npm
   args:
     chdir: app/front
 
