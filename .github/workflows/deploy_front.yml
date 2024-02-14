@@ -6,9 +6,15 @@ on:
 
 jobs:
   deploy:
-    - name: Run playbook
-      uses: dawidd6/action-ansible-playbook@v2
-      with:
-        playbook: cd_playbook.yml
-        directory: ./
-        vault_password: T-NSA-700-PAR_24
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: cd_playbook.yml
+          directory: ./
+          vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
