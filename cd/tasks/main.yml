@@ -20,7 +20,7 @@
 
 - name: Install specific version of Node.js
   become_user: runner
-  shell: "nvm install 9.4"
+  shell: "/home/runner/.nvm/nvm.sh install 9.4"
   args:
     executable: /bin/bash
 
