@@ -1,53 +1,32 @@
-- name: Clear npm cache
-  become_user: runner
-  command: npm cache clean --force
-  args:
-    chdir: app/front
+name: Build and Deploy Angular App
 
-- name: Install NVM
-  become_user: runner
-  shell: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
-  args:
-    creates: "/home/runner/.nvm"
+on:
+  push:
+    branches: [ dev ]
 
-- name: Change permissions of nvm.sh
-  become_user: runner
-  file:
-    path: "/home/runner/.nvm/nvm.sh"
-    mode: "u+x"
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-- name: Load NVM into the shell
-  become_user: runner
-  shell: |
-    source ~/.nvm/nvm.sh
-    source ~/.bashrc
-  args:
-    executable: /bin/bash
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-- name: Install specific version of Node.js
-  become_user: runner
-  shell: "/home/runner/.nvm/nvm.sh install 9.4"
-  args:
-    executable: /bin/bash
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "9.4"
 
-- name: Install Node.js dependencies
-  become_user: runner
-  command: npm install -g npm
-  args:
-    chdir: app/front
+      - name: Install dependencies
+        run: npm install
+        working-directory: SLA_2024/app/front
 
-- name: Install Node.js dependencies
-  become_user: runner
-  command: npm install
-  args:
-    chdir: app/front
+      - name: Build Angular app
+        run: npm run build --prod
+        working-directory: SLA_2024/app/front
 
-- name: Install Angular CLI globally
-  become_user: runner
-  command: npm install -g @angular/cli
-
-- name: Build Angular app
-  become_user: runner
-  command: ng build
-  args:
-    chdir: app/front
+      - name: Archive build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: angular-dist
+          path: SLA_2024/app/front/
