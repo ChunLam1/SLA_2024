@@ -19,14 +19,14 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: /app/front
+        working-directory: app/front
 
       - name: Build Angular app
         run: npm run build --prod
-        working-directory: /app/front
+        working-directory: app/front
 
       - name: Archive build artifact
         uses: actions/upload-artifact@v2
         with:
           name: angular-dist
-          path: /app/front/
+          path: app/front/
