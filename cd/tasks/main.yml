@@ -4,6 +4,16 @@
   args:
     chdir: app/front
 
+- name: Install NVM
+  shell: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
+  args:
+    creates: "/home/${{ github.actor }}/.nvm"
+
+- name: Install specific version of Node.js
+  shell: "/bin/bash -c 'source ~/.nvm/nvm.sh && nvm install 9.4'"
+  args:
+    executable: /bin/bash
+
 - name: Install Node.js dependencies
   command: npm install
   args:
