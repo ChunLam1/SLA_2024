@@ -1,44 +1,14 @@
-name: Build and Deploy Angular App
+name: Deployment
 
 on:
   push:
     branches: [dev]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "9.4"
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build Angular app
-        run: npm run build
-
-      - name: Archive build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: angular-dist
-          path: dist/
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: angular-dist
-
-      - name: Extract artifact
-        run: tar xvzf angular-dist.tar.gz
-
-      - name: Deploy to server
-        run: |
-          # Place your deployment commands here
-          # For example, you can use scp or rsync to copy the files to your server
-          scp -r dist/* user@server:/path/to/deployment/
+  deploy:
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: cd_playbook.yml
+        directory: ./
+        vault_password: T-NSA-700-PAR_24

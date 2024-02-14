@@ -1,0 +1,6 @@
+---
+- name: "CD"
+  hosts: localhost
+  become: true
+  roles:
+    - cd
