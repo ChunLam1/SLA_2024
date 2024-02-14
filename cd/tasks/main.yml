@@ -1,16 +1,17 @@
 - name: Clear npm cache
+  become_user: runner
   command: npm cache clean --force
   args:
     chdir: app/front
 
 - name: Install NVM
-  become: yes
+  become_user: runner
   shell: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
   args:
     creates: "/home/runner/.nvm"
 
 - name: Load NVM into the shell
-  become: yes
+  become_user: runner
   shell: |
     source ~/.nvm/nvm.sh
     source ~/.bashrc
@@ -18,17 +19,19 @@
     executable: /bin/bash
 
 - name: Install specific version of Node.js
-  become: yes
-  shell: "/home/runner/.nvm/versions/node/v9.4.0/bin/nvm install 9.4"
+  become_user: runner
+  shell: "nvm install 9.4"
   args:
     executable: /bin/bash
 
 - name: Install Node.js dependencies
+  become_user: runner
   command: npm install
   args:
     chdir: app/front
 
 - name: Build Angular app
+  become_user: runner
   command: npm run build
   args:
     chdir: app/front
