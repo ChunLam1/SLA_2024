@@ -32,13 +32,9 @@
 
 - name: Install Node.js dependencies
   become_user: runner
-  command: npm install -g npm
+  command: npm install
   args:
     chdir: app/front
-
-- name: Install Angular CLI globally
-  become_user: runner
-  command: npm install -g @angular/cli
 
 - name: Build Angular app
   become_user: runner
